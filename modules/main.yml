@@ -1,0 +1,49 @@
+version: '2.4'
+services:
+     
+  subject:
+    image: ${KOMPOST_SUBJECT_IMAGE}
+    env_file:
+      - ../subject.env
+
+#  mysql:
+#    restart: never
+#    image: mysql:5.7
+#    environment:
+#      MYSQL_ROOT_PASSWORD: test
+#      MYSQL_DATABASE: test
+#      MYSQL_USER: test
+#      MYSQL_PASSWORD: test
+#    healthcheck:
+#      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD" ]
+#      interval: 5s
+#      timeout: 10s
+#      retries: 30
+
+#  postgres:
+#    restart: never
+#    image: postgres:alpine
+#    restart: always
+#    environment:
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#      - POSTGRES_DB=product-data-aggregation-service
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+
+#  migration_mysql:
+#    restart: never
+#    build:
+#      context: ../../scripts
+#      dockerfile: Dockerfile.migration
+#    depends_on:
+#      mysql:
+#        condition: service_healthy
+#    command: [ "-path", "/migrations", "-database",  "mysql://magento:magento@tcp(mysql:3306)/magento", "up" ]
+
+#  wiremock:
+#    build: wiremock
+#    restart: never
