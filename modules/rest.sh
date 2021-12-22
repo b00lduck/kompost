@@ -15,3 +15,9 @@ function restGetCheckStatus {
   STATUS=$($DC run --rm curl -sS -I -X GET $1 | head -n 1 | cut -d$' ' -f2)
   diff <(echo $STATUS) <(echo $2)
 }
+
+# add compose file
+export DC="$DC -f ${MODULES_DIR}/rest.yml"    
+
+# pull images
+$DC pull curl 2>&1 | silenceLogs

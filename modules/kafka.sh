@@ -24,5 +24,11 @@ function kafkaInitTopic {
   $DC exec -T kafka kafka-topics.sh --topic $1 --bootstrap-server kafka:9092 --create --if-not-exists --partitions 3 --replication-factor 1
 }
 
-# Start kafka container
-$DC -f modules/kafka.yml up -d kafka
+# add compose file
+export DC="$DC -f ${MODULES_DIR}/kafka.yml"
+
+# pull images
+$DC pull zookeeper kafka 2>&1 | silenceLogs
+
+# start kafka and zookeeper
+$DC up -d kafka

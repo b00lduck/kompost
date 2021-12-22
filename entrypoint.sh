@@ -20,37 +20,26 @@ echo Using docker-compose project name: $COMPOSE_PROJECT_NAME
 # include modules
 source modules/main.sh
 source modules/results.sh
-source modules/common.sh
 
 
 # REST module
-if [ -n ${KOMPOST_MODULE_REST+x} ]; then
+if [ -n ${KOMPOST_MODULE_REST_ENABLED+x} ]; then
     source modules/rest.sh
-    export DC="$DC -f ${MODULES_DIR}/rest.yml"    
-    $DC pull curl 2>&1 | silenceLogs
 fi
 
 # Kafka module
-if [ -n ${KOMPOST_MODULE_KAFKA+x} ]; then
+if [ -n ${KOMPOST_MODULE_KAFKA_ENABLED+x} ]; then
     source modules/kafka.sh
-    export DC="$DC -f ${MODULES_DIR}/kafka.yml"
-    $DC pull zookeeper kafka 2>&1 | silenceLogs
-    $DC up -d kafka
 fi
-
-echo $DC
 
 # cleanup
 $DC down -v 2>&1 | silenceLogs
 
-# build test subject from source
-# TODO: use image instead
-$DC build subject 2>&1 | silenceLogs
-
+# start the test subject
 startSubject
 
 # run user defined test cases
 source testcases/runTests.sh
 
-# show results
+# show results and exit
 exitSuccess
