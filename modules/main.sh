@@ -42,7 +42,28 @@ function waitForLogLine {
   ( timeout 60s $DC logs -f "$1" & ) | grep -q "$FOO"
 }
 
+# Wait for healthy container (container status health=healthy)
+# Parameter 1: service name
+function waitForHealthyContainer {
+  RETRIES=30
+  echo -n -e "Waiting for service $MAGENTA$1$NC to become healthy (timeout $GREEN$RETRIES$NC seconds)..."
+  PID=$($DC ps -q $1)
+  i=1
+  while [ "$i" -ne 30 ] && ! [ $(docker inspect --format "{{.State.Health.Status}}" $PID | grep healthy) ]; do
+    sleep 1
+    i=$(( i + 1 ))
+    echo -n "."
+  done 
+  if [[ $i -ge $RETRIES ]]; then
+    echo -e Service $MAGENTA$1$NC did not become healthy within the timeout of $GREEN$RETRIES$NC seconds.
+    exit 1
+  else
+    echo ok
+  fi
+}
+
+
 function silenceLogs {
-  [[ -z {$DEBUG+x} ]] || cat && cat >/dev/null
+  [[ -z "$DEBUG" ]] || cat && cat >/dev/null
 }
 

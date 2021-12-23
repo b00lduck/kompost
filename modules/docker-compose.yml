@@ -6,20 +6,6 @@ services:
     env_file:
       - ../subject.env
 
-#  mysql:
-#    restart: never
-#    image: mysql:5.7
-#    environment:
-#      MYSQL_ROOT_PASSWORD: test
-#      MYSQL_DATABASE: test
-#      MYSQL_USER: test
-#      MYSQL_PASSWORD: test
-#    healthcheck:
-#      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD" ]
-#      interval: 5s
-#      timeout: 10s
-#      retries: 30
-
 #  postgres:
 #    restart: never
 #    image: postgres:alpine

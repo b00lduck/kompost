@@ -1,0 +1,14 @@
+version: '2.4'
+services:
+     
+  postgres:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=${KOMPOST_MODULE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${KOMPOST_MODULE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${KOMPOST_MODULE_POSTGRES_DATABASE}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

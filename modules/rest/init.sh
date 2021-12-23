@@ -17,7 +17,7 @@ function restGetCheckStatus {
 }
 
 # add compose file
-export DC="$DC -f ${MODULES_DIR}/rest.yml"    
+export DC="$DC -f ${MODULES_DIR}/rest/docker-compose.yml"    
 
 # pull images
 $DC pull curl 2>&1 | silenceLogs

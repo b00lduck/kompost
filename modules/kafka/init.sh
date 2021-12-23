@@ -25,10 +25,13 @@ function kafkaInitTopic {
 }
 
 # add compose file
-export DC="$DC -f ${MODULES_DIR}/kafka.yml"
+export DC="$DC -f ${MODULES_DIR}/kafka/docker-compose.yml"
 
 # pull images
 $DC pull zookeeper kafka 2>&1 | silenceLogs
 
 # start kafka and zookeeper
-$DC up -d kafka
+$DC up -d kafka 2>&1 | silenceLogs
+
+# wait for startup of kafka
+waitForHealthyContainer kafka

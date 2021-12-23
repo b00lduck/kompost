@@ -14,22 +14,31 @@ export MODULES_DIR="${PWD}/modules"
 
 # Configure docker-compose project name and add main compose file
 export COMPOSE_PROJECT_NAME="kompost-${KOMPOST_SUBJECT_NAME}"
-export DC="docker-compose -f ${MODULES_DIR}/main.yml"
+export DC="docker-compose -f ${MODULES_DIR}/docker-compose.yml"
 echo Using docker-compose project name: $COMPOSE_PROJECT_NAME
 
 # include modules
 source modules/main.sh
 source modules/results.sh
 
-
 # REST module
-if [ -n ${KOMPOST_MODULE_REST_ENABLED+x} ]; then
-    source modules/rest.sh
+if [[ -v KOMPOST_MODULE_REST_ENABLED ]]; then
+    source modules/rest/init.sh
 fi
 
 # Kafka module
-if [ -n ${KOMPOST_MODULE_KAFKA_ENABLED+x} ]; then
-    source modules/kafka.sh
+if [[ -v KOMPOST_MODULE_KAFKA_ENABLED ]]; then
+    source modules/kafka/init.sh
+fi
+
+# mySQL module
+if [[ -v KOMPOST_MODULE_MYSQL_ENABLED ]]; then
+    source modules/mysql/init.sh
+fi
+
+# postgres module
+if [[ -v KOMPOST_MODULE_POSTGRES_ENABLED ]]; then
+    source modules/postgres/init.sh
 fi
 
 # cleanup

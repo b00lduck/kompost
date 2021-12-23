@@ -8,9 +8,9 @@ function exitFailure {
     exit 1
 }
 
-function exitSuccess {
-    $DC down 2>&1 | silenceLogs
+function exitSuccess {    
     echo "Tests successful"
+    $DC down 2>&1 | silenceLogs
 }
 
 trap 'exitFailure' ERR

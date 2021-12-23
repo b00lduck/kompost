@@ -10,6 +10,7 @@ services:
     image: kompost
     environment:
       - KOMPOST_SUBJECT_NAME=myservice
+      - KOMPOST_SUBJECT_IMAGE=myservice:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${PWD}/..:/kompost/subject:ro      
@@ -20,3 +21,4 @@ services:
 ## Container environment variables
 
  * KOMPOST_SUBJECT_NAME
+ * KOMPOST_SUBJECT_IMAGE

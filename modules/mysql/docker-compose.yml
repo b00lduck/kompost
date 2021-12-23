@@ -1,0 +1,20 @@
+version: '2.4'
+services:
+     
+  subject:
+    image: ${KOMPOST_SUBJECT_IMAGE}
+    env_file:
+      - ../subject.env
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: ${KOMPOST_MODULE_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${KOMPOST_MODULE_MYSQL_DATABASE}
+      MYSQL_USER: ${KOMPOST_MODULE_MYSQL_USER}
+      MYSQL_PASSWORD: ${KOMPOST_MODULE_MYSQL_PASSWORD}
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER" ]
+      interval: 5s
+      timeout: 5s
+      retries: 30
